@@ -5,11 +5,12 @@
 # TODO
 
  1. Сделать простой TODO
- 2. Добавить semantic UI
+ 2. Добавить material UI
  3. Добавить loacalStorage и redux
  4. Написать простенькую API на ноде и монге
  5. Добавить анимаций и тд.
  6. Привести к нормальному внешнему виду
+ 7. [optional] Добавить авторизацию
 
 StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
 
