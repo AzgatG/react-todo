@@ -4,9 +4,10 @@ import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import Paper from 'material-ui/Paper';
 
-import Title from './Title'
-import TodosList from './TodosList'
-import Footer from './Footer'
+import Title from './Title';
+import TodosList from './TodosList';
+import Footer from './Footer';
+
 
 const styles = theme => ({
   root: {
