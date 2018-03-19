@@ -4,7 +4,8 @@ import { withStyles } from 'material-ui/styles';
 import { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
-import CommentIcon from 'material-ui-icons/Comment';
+import Delete from 'material-ui-icons/Close';
+
 
 const styles = theme => ({
   root: {
@@ -19,8 +20,12 @@ const styles = theme => ({
 });
 
 class TodoItem extends React.Component {
-  changeCheckBox = (value) => ev => {
-    this.props.change(value);
+  changeCheckBox = id => ev => {
+    this.props.change(id);
+  }
+
+  deleteItem = id => ev => {
+    this.props.delete(id)
   }
 
   render() {
@@ -41,10 +46,13 @@ class TodoItem extends React.Component {
           tabIndex={-1}
           disableRipple
         />
-        <ListItemText onClick={this.changeCheckBox(id)} className={closed ? classes.closed : ''} primary={title} />
+        <ListItemText
+          onClick={this.changeCheckBox(id)}
+          className={closed ? classes.closed : ''} primary={title}
+        />
         <ListItemSecondaryAction>
-          <IconButton aria-label="Comments">
-            <CommentIcon />
+          <IconButton aria-label="Deleteitem">
+            <Delete onClick={this.deleteItem(id)} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
