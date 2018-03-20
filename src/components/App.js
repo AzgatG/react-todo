@@ -6,7 +6,6 @@ import Paper from 'material-ui/Paper';
 
 import Title from './Title';
 import TodosList from './TodosList';
-import Footer from './Footer';
 
 
 const styles = theme => ({
@@ -24,7 +23,6 @@ function App(props) {
       <Paper className={classes.paper}>
         <Title />
         <TodosList />
-        <Footer />
       </Paper>
     </div>
   );

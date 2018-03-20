@@ -4,8 +4,6 @@ import { withStyles } from 'material-ui/styles';
 import Radio, { RadioGroup } from 'material-ui/Radio';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 
-import Counter from './Counter'
-
 
 const styles = theme => ({
   root: {
@@ -13,6 +11,7 @@ const styles = theme => ({
     margin: theme.spacing.unit * 3,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   formControl: {
     
@@ -24,12 +23,8 @@ const styles = theme => ({
 });
 
 class Footer extends React.Component {
-  state = {
-    value: 'ALL',
-  };
-
   handleChange = (event, value) => {
-    this.setState({ value });
+    this.props.change(value);
   };
 
   render() {
@@ -37,18 +32,17 @@ class Footer extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Counter count={6} />
         <FormControl component="fieldset" required className={classes.formControl}>
           <RadioGroup
             aria-label="gender"
             name="gender1"
             className={classes.group}
-            value={this.state.value}
+            value={this.props.value}
             onChange={this.handleChange}
           > 
             <FormControlLabel value="ALL" control={<Radio />} label="Все" />
             <FormControlLabel value="ACTIVE" control={<Radio />} label="Активные" />
-            <FormControlLabel value="CLOSE" control={<Radio />} label="Выполненые" />
+            <FormControlLabel value="CLOSED" control={<Radio />} label="Выполненые" />
           </RadioGroup>
         </FormControl>
       </div>

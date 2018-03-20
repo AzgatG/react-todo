@@ -21,9 +21,14 @@ const styles = theme => ({
 
 
 class TodoForm extends React.Component {
-  state = {
-    todo: '',
-  };
+  constructor(props) {
+    super(props);
+    const {todo} = props;
+
+    this.state = {
+      todo: todo ? todo.title : '',
+    };
+  }
 
   handleChange = event => {
     this.setState({
@@ -33,6 +38,7 @@ class TodoForm extends React.Component {
 
   handleSubmit = event => {
   	event.preventDefault();
+
     this.props.onSubmit(this.state.todo);
     this.setState({
       todo: '',

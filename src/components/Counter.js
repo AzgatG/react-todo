@@ -2,7 +2,7 @@ import React from 'react';
 
 const Counter = ({count}) => {
   return (
-    <div style={{flexBasis: '25%'}}>Осталось: {count}</div>
+    <div style={{paddingLeft: '30px'}}>Осталось: {count}</div>
   )
 }
 

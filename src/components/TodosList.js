@@ -8,6 +8,8 @@ import CommentIcon from 'material-ui-icons/Comment';
 
 import TodoItem from './TodoItem'
 import TodoForm from './TodoForm'
+import Counter from './Counter'
+import Footer from './Footer';
 import {generateId} from '../helpers'
 
 
@@ -16,31 +18,37 @@ let todos = [{
     title: 'Добавить редакс',
     description: '',
     closed: true,
+    editingMode: false,
   }, {
     id: 2,
     title: 'Добавить локалсторадж',
     description: '',
     closed: false,
+    editingMode: false,
   }, {
     id: 3,
     title: 'Добавить иммутабле дж',
     description: '',
     closed: false,
+    editingMode: false,
   }, {
     id: 4,
     title: 'Добавить анимацию',
     description: '',
     closed: false,
+    editingMode: false,
   }, {
     id: 5,
     title: 'Добавить адаптивную верстку',
     description: '',
     closed: false,
+    editingMode: false,
   }, {
     id: 6,
     title: 'Добавить API',
     description: '',
     closed: false,
+    editingMode: false,
   },
 ]
 
@@ -53,13 +61,16 @@ const styles = theme => ({
 });
 
 class TodosList extends React.Component {
-  state = {todos}
+  state = {
+    todos,
+    filter: 'ALL'
+  }
 
-  handleChange = (id) => {
+  handleChange = (id, name) => {
     const {todos} = this.state;
 
     let targetTodo = todos.find( todo => todo.id === id )
-    targetTodo.closed = !targetTodo.closed;
+    targetTodo[`${name}`] = !targetTodo[`${name}`];
     this.setState({todos})
   }
 
@@ -71,17 +82,40 @@ class TodosList extends React.Component {
   }
 
   handleDeleteTodo = id => {
-    console.log(id)
     let {todos} = this.state;
-    console.log(todos.filter( todo => todo.id !== id))
     this.setState({
       todos: todos.filter( todo => todo.id !== id)
     }) 
   }
 
+  handleEdit = todo => {
+    const {todos} = this.state;
+
+    let targetTodo = todos.find( item => item.id === todo.id )
+
+    targetTodo.editingMode = !todo.editingMode;
+    targetTodo.title = todo.title;
+
+    this.setState({todos})
+  }
+
+  hadleChangeFilter = filter => {
+    this.setState({ filter });
+  }
+
   render() {
     const {classes} = this.props;
-    const {todos} = this.state;
+    let {todos, filter} = this.state;
+    const count = todos.filter( todo => !todo.closed)
+
+    switch (filter) {
+      case 'CLOSED':
+        todos = todos.filter( todo => todo.closed );
+        break;
+      case 'ACTIVE':
+        todos = todos.filter( todo => !todo.closed );
+        break;
+    }
 
     return (
       <div> 
@@ -89,6 +123,7 @@ class TodosList extends React.Component {
         <List>
           {todos.map(todo => (
             <TodoItem
+              edit={this.handleEdit}
               change={this.handleChange}
               delete={this.handleDeleteTodo}
               key={todo.id}
@@ -96,6 +131,8 @@ class TodosList extends React.Component {
             />)
           )}
         </List>
+        <Counter count={count.length} />
+        <Footer change={this.hadleChangeFilter} value={filter} />
       </div>
     );
   }
