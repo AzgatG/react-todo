@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 // css
 import './style.css';
 // components
-import App from './components/App';
+import Root from './components/Root';
 // import store from './store'
 
-render(<App />, document.getElementById('container'));
+render(<Root />, document.getElementById('container'));

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {connect} from 'react-redux';
+
 import List from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
@@ -11,81 +12,14 @@ import TodoForm from './TodoForm'
 import Counter from './Counter'
 import Footer from './Footer';
 import {generateId} from '../helpers'
-
-
-let todos = [{
-    id: 1,
-    title: 'Добавить редакс',
-    description: '',
-    closed: true,
-    editingMode: false,
-  }, {
-    id: 2,
-    title: 'Добавить локалсторадж',
-    description: '',
-    closed: false,
-    editingMode: false,
-  }, {
-    id: 3,
-    title: 'Добавить иммутабле дж',
-    description: '',
-    closed: false,
-    editingMode: false,
-  }, {
-    id: 4,
-    title: 'Добавить анимацию',
-    description: '',
-    closed: false,
-    editingMode: false,
-  }, {
-    id: 5,
-    title: 'Добавить адаптивную верстку',
-    description: '',
-    closed: false,
-    editingMode: false,
-  }, {
-    id: 6,
-    title: 'Добавить API',
-    description: '',
-    closed: false,
-    editingMode: false,
-  },
-]
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-  },
-});
+import {SHOW_COMPLETED, SHOW_ACTIVE} from '../constants'
 
 class TodosList extends React.Component {
-  state = {
-    todos,
-    filter: 'ALL'
-  }
-
-  handleChange = (id, name) => {
-    const {todos} = this.state;
-
-    let targetTodo = todos.find( todo => todo.id === id )
-    targetTodo[`${name}`] = !targetTodo[`${name}`];
-    this.setState({todos})
-  }
-
   handleAddTodo = (todo) => {
     let {todos} = this.state;
     this.setState({
       todos: [...todos, {title: todo, description: '', closed: false, id: generateId()}]
     })
-  }
-
-  handleDeleteTodo = id => {
-    let {todos} = this.state;
-    this.setState({
-      todos: todos.filter( todo => todo.id !== id)
-    }) 
   }
 
   handleEdit = todo => {
@@ -99,21 +33,19 @@ class TodosList extends React.Component {
     this.setState({todos})
   }
 
-  hadleChangeFilter = filter => {
-    this.setState({ filter });
-  }
-
   render() {
-    const {classes} = this.props;
-    let {todos, filter} = this.state;
-    const count = todos.filter( todo => !todo.closed)
+    let {todos} = this.props;
+    const {filter} = this.props;
+    const count = todos.reduce( (sum, todo) => !todo.completed ? sum += 1 : sum, 0)
+
+    console.log(filter)
 
     switch (filter) {
-      case 'CLOSED':
-        todos = todos.filter( todo => todo.closed );
+      case 'SHOW_COMPLETED':
+        todos = todos.filter( todo => todo.completed );
         break;
-      case 'ACTIVE':
-        todos = todos.filter( todo => !todo.closed );
+      case 'SHOW_ACTIVE':
+        todos = todos.filter( todo => !todo.completed );
         break;
     }
 
@@ -124,19 +56,20 @@ class TodosList extends React.Component {
           {todos.map(todo => (
             <TodoItem
               edit={this.handleEdit}
-              change={this.handleChange}
               delete={this.handleDeleteTodo}
               key={todo.id}
               todo={todo}
             />)
           )}
         </List>
-        <Counter count={count.length} />
-        <Footer change={this.hadleChangeFilter} value={filter} />
+        <Counter count={count} />
+        <Footer value={filter} />
       </div>
     );
   }
 }
 
-
-export default withStyles(styles)(TodosList);
+export default connect(({todos, filter}) => ({
+  todos,
+  filter,
+}))(TodosList);

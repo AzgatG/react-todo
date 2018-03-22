@@ -1,17 +1,15 @@
-// import {createStore, applyMiddleware} from 'redux';
-// import thunk from 'redux-thunk'
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk'
 
-// import reducer from '../reducer';
-// import logger from '../middlewares/logger'
-// import randomId from '../middlewares/randomId'
-// import api from '../middlewares/api'
+import reducer from '../reducer';
+import logger from '../middlewares/logger'
 
 
-// const enchancer = applyMiddleware(thunk, randomId, api, logger)
+const enchancer = applyMiddleware(thunk, logger)
 
-// const store = createStore(reducer, {}, enchancer)
+const store = createStore(reducer, {}, enchancer)
 
-// //dev only
-// window.store = store
+//dev only
+window.store = store
 
-// export default store
+export default store

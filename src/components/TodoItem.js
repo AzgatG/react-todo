@@ -1,20 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
-import { ListItem, ListItemSecondaryAction, ListItemText } from 'material-ui/List';
+import {connect} from 'react-redux'
+
+import {withStyles} from 'material-ui/styles';
+import {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Close';
 import Tooltip from 'material-ui/Tooltip';
 
 import TodoForm from './TodoForm'
+import {toggleTodo, deleteTodo} from '../AC'
 
 
 const styles = theme => ({
   editForm: {
     paddingLeft: '20px',
   },
-  closed: {
+  completed: {
     textDecoration: 'line-through',
     opacity: '0.5',
   }
@@ -22,11 +25,12 @@ const styles = theme => ({
 
 class TodoItem extends React.Component {
   changeCheckBox = (id, name) => ev => {
-    this.props.change(id, name);
+    const {toggleTodo, todo} = this.props
+    toggleTodo(todo.id, name)
   }
 
   deleteItem = id => ev => {
-    this.props.delete(id)
+    this.props.deleteTodo(id)
   }
 
   handleSubmit = title => {
@@ -36,12 +40,11 @@ class TodoItem extends React.Component {
   }
 
   render() {
-    const { classes, change, todo } = this.props;
-    const { id, title, closed, description, editingMode } = todo;
+    const {classes, todo} = this.props;
 
     return (
       <div> 
-        {editingMode && 
+        {todo.editingMode && 
           <div className={classes.editForm}>
             <TodoForm
               onSubmit={this.handleSubmit}
@@ -49,29 +52,28 @@ class TodoItem extends React.Component {
             />
           </div>
         }
-        {!editingMode &&
+        {!todo.editingMode &&
           <ListItem
-            key={name}
             role={undefined}
             dense
             button
             className={classes.listItem}
           > 
             <Checkbox
-              checked={closed}
-              onChange={this.changeCheckBox(id, 'closed')}
+              checked={todo.completed}
+              onChange={this.changeCheckBox(todo.id, 'completed')}
               tabIndex={-1}
               disableRipple
             />
             <Tooltip title="Duble click for edit" placement="bottom">
               <ListItemText
-                onDoubleClick={this.changeCheckBox(id, 'editingMode')}
-                className={closed ? classes.closed : ''} primary={title}
+                onDoubleClick={this.changeCheckBox(todo.id, 'editingMode')}
+                className={todo.completed ? classes.completed : ''} primary={todo.title}
               />
             </Tooltip>
             <ListItemSecondaryAction>
               <IconButton aria-label="Deleteitem">
-                <Delete onClick={this.deleteItem(id)} />
+                <Delete onClick={this.deleteItem(todo.id)} />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -81,4 +83,8 @@ class TodoItem extends React.Component {
   }
 }
 
-export default withStyles(styles)(TodoItem);
+export default connect(
+  null,
+  {toggleTodo, deleteTodo}
+)(withStyles(styles)(TodoItem));
+
