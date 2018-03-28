@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux'
+import {connect} from 'react-redux';
 
 import {withStyles} from 'material-ui/styles';
 import {ListItem, ListItemSecondaryAction, ListItemText} from 'material-ui/List';
@@ -8,9 +8,10 @@ import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Close';
 import Tooltip from 'material-ui/Tooltip';
+import {Animated} from "react-animated-css";
 
-import TodoForm from './TodoForm'
-import {toggleTodo, deleteTodo, editTodo} from '../AC'
+import TodoForm from './TodoForm';
+import {toggleTodo, deleteTodo, editTodo} from '../AC';
 
 
 const styles = theme => ({
@@ -79,4 +80,3 @@ export default connect(
   null,
   {toggleTodo, deleteTodo}
 )(withStyles(styles)(TodoItem));
-
