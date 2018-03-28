@@ -15,30 +15,10 @@ import {generateId} from '../helpers'
 import {SHOW_COMPLETED, SHOW_ACTIVE} from '../constants'
 
 class TodosList extends React.Component {
-  handleAddTodo = (todo) => {
-    let {todos} = this.state;
-    this.setState({
-      todos: [...todos, {title: todo, description: '', closed: false, id: generateId()}]
-    })
-  }
-
-  handleEdit = todo => {
-    const {todos} = this.state;
-
-    let targetTodo = todos.find( item => item.id === todo.id )
-
-    targetTodo.editingMode = !todo.editingMode;
-    targetTodo.title = todo.title;
-
-    this.setState({todos})
-  }
-
   render() {
     let {todos} = this.props;
     const {filter} = this.props;
-    const count = todos.reduce( (sum, todo) => !todo.completed ? sum += 1 : sum, 0)
-
-    console.log(filter)
+    const count = todos.reduce((sum, todo) => !todo.completed ? sum += 1 : sum, 0);
 
     switch (filter) {
       case 'SHOW_COMPLETED':
@@ -51,12 +31,10 @@ class TodosList extends React.Component {
 
     return (
       <div> 
-        <TodoForm onSubmit={this.handleAddTodo}/>
+        <TodoForm />
         <List>
           {todos.map(todo => (
             <TodoItem
-              edit={this.handleEdit}
-              delete={this.handleDeleteTodo}
               key={todo.id}
               todo={todo}
             />)
@@ -68,6 +46,7 @@ class TodosList extends React.Component {
     );
   }
 }
+
 
 export default connect(({todos, filter}) => ({
   todos,

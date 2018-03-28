@@ -10,7 +10,7 @@ import Delete from 'material-ui-icons/Close';
 import Tooltip from 'material-ui/Tooltip';
 
 import TodoForm from './TodoForm'
-import {toggleTodo, deleteTodo} from '../AC'
+import {toggleTodo, deleteTodo, editTodo} from '../AC'
 
 
 const styles = theme => ({
@@ -25,18 +25,12 @@ const styles = theme => ({
 
 class TodoItem extends React.Component {
   changeCheckBox = (id, name) => ev => {
-    const {toggleTodo, todo} = this.props
-    toggleTodo(todo.id, name)
+    const {toggleTodo, todo} = this.props;
+    toggleTodo(todo.id, name);
   }
 
   deleteItem = id => ev => {
-    this.props.deleteTodo(id)
-  }
-
-  handleSubmit = title => {
-    let {todo} = this.props;
-    todo.title = title;
-    this.props.edit(todo);
+    this.props.deleteTodo(id);
   }
 
   render() {
@@ -46,37 +40,35 @@ class TodoItem extends React.Component {
       <div> 
         {todo.editingMode && 
           <div className={classes.editForm}>
-            <TodoForm
-              onSubmit={this.handleSubmit}
-              todo={todo}
-            />
+            <TodoForm todo={todo} />
           </div>
         }
         {!todo.editingMode &&
-          <ListItem
-            role={undefined}
-            dense
-            button
-            className={classes.listItem}
-          > 
-            <Checkbox
-              checked={todo.completed}
-              onChange={this.changeCheckBox(todo.id, 'completed')}
-              tabIndex={-1}
-              disableRipple
-            />
-            <Tooltip title="Duble click for edit" placement="bottom">
-              <ListItemText
-                onDoubleClick={this.changeCheckBox(todo.id, 'editingMode')}
-                className={todo.completed ? classes.completed : ''} primary={todo.title}
+          <Tooltip title="Duble click for edit" placement="bottom">
+            <ListItem
+              role={undefined}
+              dense
+              button
+              className={classes.listItem}
+              onDoubleClick={this.changeCheckBox(todo.id, 'editingMode')}
+            > 
+              <Checkbox
+                checked={todo.completed}
+                onChange={this.changeCheckBox(todo.id, 'completed')}
+                tabIndex={-1}
+                disableRipple
               />
-            </Tooltip>
-            <ListItemSecondaryAction>
-              <IconButton aria-label="Deleteitem">
-                <Delete onClick={this.deleteItem(todo.id)} />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
+                <ListItemText
+                  className={todo.completed ? classes.completed : ''}
+                  primary={todo.title}
+                />
+              <ListItemSecondaryAction>
+                <IconButton aria-label="Deleteitem">
+                  <Delete onClick={this.deleteItem(todo.id)} />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          </Tooltip>
         }
       </div>
     );

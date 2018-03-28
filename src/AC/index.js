@@ -1,4 +1,10 @@
-import {DELETE_TODO, TOGGLE_TODO, CHANGE_FILTER} from '../constants'
+import {
+  DELETE_TODO,
+  TOGGLE_TODO,
+  CHANGE_FILTER,
+  ADD_TODO,
+  EDIT_TODO,
+} from '../constants'
 
 
 export function toggleTodo(id, name) {
@@ -19,5 +25,20 @@ export function changeFilter(filter) {
   return {
     type: CHANGE_FILTER,
     payload: {filter}
+  }
+}
+
+export function addTodo(todo) {
+  return {
+    type: ADD_TODO,
+    payload: {todo},
+    generateId: true,
+  }
+}
+
+export function editTodo(todo) {
+  return {
+    type: EDIT_TODO,
+    payload: {todo}
   }
 }

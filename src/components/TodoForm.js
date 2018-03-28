@@ -1,10 +1,14 @@
 import React from 'react';
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types';
+
 import {withStyles} from 'material-ui/styles';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import AddButton from 'material-ui-icons/Add';
+
+import {addTodo, editTodo} from '../AC'
 
 
 const styles = theme => ({
@@ -39,7 +43,14 @@ class TodoForm extends React.Component {
   handleSubmit = event => {
   	event.preventDefault();
 
-    this.props.onSubmit(this.state.todo);
+    const {todo, addTodo, editTodo} =this.props;
+
+    if (todo) {
+      editTodo({...todo, title: this.state.todo});
+    } else {
+      addTodo(this.state.todo);
+    }
+
     this.setState({
       todo: '',
     });
@@ -57,6 +68,7 @@ class TodoForm extends React.Component {
           onChange={this.handleChange}
           margin="normal"
           helperText="Press enter"
+          required={true}
         />
       </form>
     );
@@ -67,4 +79,7 @@ TodoForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(TodoForm);
+export default connect(
+  null,
+  {addTodo, editTodo}
+)(withStyles(styles)(TodoForm));
