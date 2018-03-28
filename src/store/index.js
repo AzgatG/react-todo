@@ -11,6 +11,9 @@ const enchancer = applyMiddleware(thunk, logger, randomId);
 const store = createStore(reducer, {}, enchancer);
 
 //dev only
-window.store = store;
+if (process.env.NODE_ENV !== 'production') {
+  window.store = store;
+  console.log('Looks like we are in development mode!');
+}
 
 export default store;
