@@ -1,4 +1,4 @@
-import {todos as defaultTodos} from '../fixtures'
+import {todos as defaultState} from '../fixtures'
 import {
   DELETE_TODO,
   TOGGLE_TODO,
@@ -7,7 +7,7 @@ import {
 } from '../constants'
 
 
-export default (todosState = defaultTodos, action) => {
+export default (todosState = defaultState, action) => {
   const {type, payload, randomId} = action
   
   switch (type) {
