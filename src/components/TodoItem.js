@@ -8,7 +8,6 @@ import Checkbox from 'material-ui/Checkbox';
 import IconButton from 'material-ui/IconButton';
 import Delete from 'material-ui-icons/Close';
 import Tooltip from 'material-ui/Tooltip';
-import {Animated} from "react-animated-css";
 
 import TodoForm from './TodoForm';
 import {toggleTodo, deleteTodo, editTodo} from '../AC';

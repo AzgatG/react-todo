@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run dev",
+    "lint": "eslint  src",
+    "lint:fix": "eslint --fix src",
     "api": "node simple_api/server.js",
     "dev": "webpack-dev-server --hot --inline",
     "build": "webpack --config webpack.prod.js"

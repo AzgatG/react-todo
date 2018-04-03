@@ -1,7 +1,7 @@
 import React from 'react';
-import App from './App'
-import store from '../store'
-import {Provider} from 'react-redux'
+import App from './App';
+import store from '../store';
+import {Provider} from 'react-redux';
 
 
 function Root() {
@@ -12,4 +12,4 @@ function Root() {
   );
 }
 
-export default Root
+export default Root;

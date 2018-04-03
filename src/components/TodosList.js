@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 
 import List from 'material-ui/List';
-import { CSSTransitionGroup } from 'react-transition-group'
+import { CSSTransitionGroup } from 'react-transition-group';
 
 import TodoItem from './TodoItem';
 import TodoForm from './TodoForm';
@@ -18,12 +18,12 @@ class TodosList extends React.Component {
     const count = todos.reduce((sum, todo) => !todo.completed ? sum += 1 : sum, 0);
 
     switch (filter) {
-      case 'SHOW_COMPLETED':
-        todos = todos.filter( todo => todo.completed );
-        break;
-      case 'SHOW_ACTIVE':
-        todos = todos.filter( todo => !todo.completed );
-        break;
+    case 'SHOW_COMPLETED':
+      todos = todos.filter( todo => todo.completed );
+      break;
+    case 'SHOW_ACTIVE':
+      todos = todos.filter( todo => !todo.completed );
+      break;
     }
 
     return (
@@ -32,10 +32,10 @@ class TodosList extends React.Component {
         <List>
           <CSSTransitionGroup
             transitionName={{
-              enter: "animated",
-              enterActive: "zoomIn",
-              leave: "animated",
-              leaveActive: "zoomOut",
+              enter: 'animated',
+              enterActive: 'zoomIn',
+              leave: 'animated',
+              leaveActive: 'zoomOut',
               appear: 'animated',
               appearActive: 'zoomIn'
             }}
@@ -58,7 +58,6 @@ class TodosList extends React.Component {
     );
   }
 }
-
 
 export default connect(({todos, filter}) => ({
   todos,
